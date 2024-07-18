@@ -2,17 +2,18 @@
 #include <cassert>
 #include <fstream>
 #include <iostream>
+#include <span>
 #include <string>
 #include <valarray>
-
-/*
-:!swig -c++ -python Matrix.i
-*/
 
 extern "C" {
     inline void setUpLibrary()
     {
         puts("setUpLibrary");
+    }
+    inline void tearDownLibrary()
+    {
+        puts("tearDownLibrary");
     }
 }
 
@@ -26,6 +27,8 @@ namespace WF2 {
 		Matrix(std::size_t rows = 1, std::size_t columns = 1, double value = 0)
 			: rows(rows), columns(columns), array(value, rows*columns)
 		{ }
+		// Construct from array of doubles.
+		// Assumes array points at rows * columns doubles
 		Matrix(std::size_t rows, std::size_t columns, const double* array)
 			: rows(rows), columns(columns), array(array, rows*columns)
 		{ }
@@ -45,6 +48,7 @@ namespace WF2 {
 		Matrix(const Matrix&&) = default;
 		Matrix& operator=(const Matrix&&) = default;
 		~Matrix() = default;
+		*/
 
 		Matrix& operator+=(const Matrix& b)
 		{
@@ -54,11 +58,11 @@ namespace WF2 {
 
 			return *this;
 		}
-		friend Matrix operator+(Matrix a, const Matrix& b)
+		
+		Matrix operator+(const Matrix& b)
 		{
-			return a += b;
+			return operator+=(b);
 		}
-		*/
 	};
 
 } // namespace WF2

@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /build
 /.CMakeLists.txt.swp
+/.Matrix.h.swp
