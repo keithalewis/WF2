@@ -20,28 +20,32 @@ extern "C" {
 namespace WF2 {
 
 	class Matrix {
-		std::size_t rows;
-		std::size_t columns;
+		int rows;
+		int columns;
 		std::valarray<double> array;
 	public:
-		Matrix(std::size_t rows = 1, std::size_t columns = 1, double value = 0)
+		Matrix(int rows = 1, int columns = 1, double value = 0)
 			: rows(rows), columns(columns), array(value, rows*columns)
 		{ }
 		// Construct from array of doubles.
 		// Assumes array points at rows * columns doubles
-		Matrix(std::size_t rows, std::size_t columns, const double* array)
+		Matrix(int rows, int columns, const double* array)
 			: rows(rows), columns(columns), array(array, rows*columns)
 		{ }
-		// "[[1,2,3],[4,5,6]]" -> Matrix(2, 3, {1,2,3,4,5,6})
-        /*
+		// Read from parameter file.
+		/*
 		Matrix(const char* path = "./Matrix.params")
 		{
-			size_t r = 0, c = 0; // rows, columns
-			std::ifstream matrix(path);
-			if (matrix.is_open()) {
+			int rows, columns;
+			double value;
+
+			std::ifstream ifs(path);
+			if (ifs.is_open()) {
+				assert(ifs >> rows >> columns >> value);
 			}
+			Matrix(rows, columns, value);
 		}
-        */
+		*/
 		/*
 		Matrix(const Matrix&) = default;
 		Matrix& operator=(const Matrix&) = default;

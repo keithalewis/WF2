@@ -2,6 +2,15 @@
 
 ## build
 
+### Dependencies
+
+On Ubuntu
+
+```
+$ sudo apt install swig4.0
+$ sudo apt install python3-numpy
+```
+
 To create `_Matrix.so` and `pyMatrix.py` in `build` direectory:
 
 ```
@@ -15,7 +24,8 @@ Add full path to `build` directory to `PYTHONPATH`. From `build` directory
 ```
 export PYTHONPATH=${PYTHONPATH}:$(pwd)
 ```
-Import py Matrix  
+
+Import pyMatrix  
 ```
 $ python3
 >>> import pyMatrix
