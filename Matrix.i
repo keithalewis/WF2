@@ -11,8 +11,8 @@
 import_array();
 %}
 
-%apply (double* IN_ARRAY2, int DIM1, int DIM2) {(double* a, int r, int c)};
 %include "Matrix.h"
+%apply (int DIM1, int DIM2, double* IN_ARRAY2) {(int r, int c, double* a)};
 
 extern void setUpLibrary();
 extern void tearDownLibrary();

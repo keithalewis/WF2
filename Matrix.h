@@ -1,6 +1,7 @@
 #pragma once
 #include <cassert>
 #include <fstream>
+#include <sstream>
 #include <iostream>
 #include <span>
 #include <string>
@@ -19,40 +20,32 @@ extern "C" {
 
 namespace WF2 {
 
-	class Matrix {
+	struct Matrix {
 		int rows;
 		int columns;
 		std::valarray<double> array;
-	public:
+
 		Matrix(int rows = 1, int columns = 1, double value = 0)
 			: rows(rows), columns(columns), array(value, rows*columns)
 		{ }
 		// Construct from array of doubles.
 		// Assumes array points at rows * columns doubles
-		Matrix(int rows, int columns, const double* array)
+		Matrix(int rows, int columns, double* array)
 			: rows(rows), columns(columns), array(array, rows*columns)
 		{ }
 		// Read from parameter file.
-		/*
-		Matrix(const char* path = "./Matrix.params")
+		explicit Matrix(const char* path)
 		{
 			int rows, columns;
 			double value;
 
 			std::ifstream ifs(path);
-			if (ifs.is_open()) {
-				assert(ifs >> rows >> columns >> value);
-			}
-			Matrix(rows, columns, value);
+			assert (ifs.is_open());
+			assert(ifs >> rows >> columns >> value);
+            ifs.close();
+
+			operator=(Matrix(rows, columns, value));
 		}
-		*/
-		/*
-		Matrix(const Matrix&) = default;
-		Matrix& operator=(const Matrix&) = default;
-		Matrix(const Matrix&&) = default;
-		Matrix& operator=(const Matrix&&) = default;
-		~Matrix() = default;
-		*/
 
 		Matrix& operator+=(const Matrix& b)
 		{
@@ -67,7 +60,45 @@ namespace WF2 {
 		{
 			return operator+=(b);
 		}
+        std::string to_string() const
+        {
+            std::ostringstream oss;
+
+            oss << "[";
+            auto commai = "";
+            for (int i = 0; i < rows; ++i) {
+              oss << commai << "[";
+              commai = ", ";
+              auto commaj = "";
+              for (int j = 0; j < columns; ++j) {
+                oss << commaj << array[i * columns + j];
+                commaj = ", ";
+              }
+              oss << "]";
+            }
+            oss << "]";
+
+            return oss.str();
+        }
+#ifdef SWIG
+        %extend {
+          const char *__str__() {
+            static std::string s = self->to_string();;
+
+            return s.c_str();
+          }
+        }
+#endif // SWIG
+
 	};
 
 } // namespace WF2
 
+#ifndef SWIG
+std::ostream& operator<<(std::ostream& os, const WF2::Matrix& m)
+{
+    os << m.to_string();
+
+    return os;
+}
+#endif // SWIG
