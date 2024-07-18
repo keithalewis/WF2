@@ -14,20 +14,19 @@ $ sudo apt install python3-numpy
 To create `_Matrix.so` and `pyMatrix.py` in `build` direectory:
 
 ```
-mkdir build
-cd build
-cmake ..
-make
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
 ```
 
-Add full path to `build` directory to `PYTHONPATH`. From `build` directory  
-```
-export PYTHONPATH=${PYTHONPATH}:$(pwd)
-```
+Or `make python`.
 
-Import pyMatrix  
+From `build` directory  
 ```
 $ python3
->>> import pyMatrix
->>> pyMatrix.setUpLibrary()
+>>> import pyMatrix as pm
+>>> m = pm.Matrix(2,3,4)
+>>> print(m)
+[[4, 4, 4], [4, 4, 4]]
 ```
