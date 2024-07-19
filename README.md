@@ -41,7 +41,7 @@ developed by Jack Schwartz at NYU.
 
 Guido was well aware of the perfomance tradeoffs of making
 a language easy to use and making it fast. 
-His [Python/C API](https://docs.python.org/3/c-api/index.html) makes it
+The [Python/C API](https://docs.python.org/3/c-api/index.html) makes it
 possible to extend the Python interpreter with new modules.  Modules can
 not only define new functions but also new object types and their methods.
 
@@ -59,6 +59,5 @@ it is tedious to use and requires expert skills.
 In the same spirit as Python, there have been many efforts to make this easier to use
 but they all ultimately rely on this.
 
-
-
-
+To generate Python/C API code it is necessary to mark up the C or C++ code
+to be called.
