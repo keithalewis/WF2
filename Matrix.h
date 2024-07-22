@@ -31,6 +31,7 @@ namespace WF2 {
 			: rows(rows), columns(columns), array(value, rows*columns)
 		{ }
         Matrix(const Matrix& m) = default;
+		// SWIG unable to use default.
         Matrix& operator=(const Matrix& m)
 		{
 			if (this != &m) {

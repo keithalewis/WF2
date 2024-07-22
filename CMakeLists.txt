@@ -10,7 +10,6 @@ endif()
 include(UseSWIG)
 set(UseSWIG_TARGET_NAME_PREFERENCE STANDARD)
 
-
 set_property(SOURCE Matrix.i PROPERTY CPLUSPLUS ON)
 set_property(SOURCE Matrix.i PROPERTY SWIG_MODULE_NAME pyMatrix)
 swig_add_library(Matrix
