@@ -14,6 +14,3 @@ namespace std {
 
 %rename(assign) WF2::Matrix::operator=;
 %include "Matrix.h"
-
-extern void setUpLibrary();
-extern void tearDownLibrary();
