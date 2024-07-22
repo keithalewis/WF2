@@ -10,32 +10,46 @@
 
 extern "C" {
 
+	// To be called in %init %{ ... }%
     inline void setUpLibrary()
     {
-        puts("setUpLibrary");
     }
+	// Don't know where this should go.
     inline void tearDownLibrary()
     {
-        puts("tearDownLibrary");
     }
 }
 
 namespace WF2 {
 
-	struct Matrix {
+	class Matrix {
 		size_t rows;
 		size_t columns;
 		std::valarray<double> array;
-
+    public:
 		Matrix(size_t rows = 1, size_t columns = 1, double value = 0)
 			: rows(rows), columns(columns), array(value, rows*columns)
 		{ }
+        Matrix(const Matrix& m) = default;
+        Matrix& operator=(const Matrix& m)
+		{
+			if (this != &m) {
+				rows = m.rows;
+				columns = m.columns;
+				array = m.array;
+			}
+
+			return *this;
+		}
+        ~Matrix() = default;
+
 		// Construct from array of doubles.
 		// Assumes array points at rows * columns doubles
-		Matrix(size_t rows, size_t columns, double* array)
+		Matrix(size_t rows, size_t columns, const double* array)
 			: rows(rows), columns(columns), array(array, rows*columns)
 		{ }
         // Construct from ragged vector SWIG knows about.
+		// Not memory efficient.
         Matrix(const std::vector<std::vector<double>>& vv)
         {
             size_t r = vv.size();
@@ -47,7 +61,7 @@ namespace WF2 {
             // Flatten ragged vector.
             std::vector<double> v = vv[0];
             for (size_t i = 1; i < r; ++i) {
-                if (vv[i].size() != r) {
+                if (vv[i].size() != c) {
                     throw "Matrix: all rows must be the same size";
                 }
                 v.insert(v.end(), vv[i].begin(), vv[i].end());
@@ -64,7 +78,7 @@ namespace WF2 {
 
 			std::ifstream ifs(path);
 			assert (ifs.is_open());
-			assert(ifs >> rows >> columns >> value);
+			assert (ifs >> rows >> columns >> value);
             ifs.close();
 
 			operator=(Matrix(rows, columns, value));
@@ -78,11 +92,14 @@ namespace WF2 {
 
 			return *this;
 		}
-		
-		Matrix operator+(const Matrix& b)
+		Matrix operator+(const Matrix& b) const
 		{
-			return operator+=(b);
+			Matrix c(*this);
+			c += b;
+
+			return c;
 		}
+
         std::string to_string() const
         {
             std::ostringstream oss;

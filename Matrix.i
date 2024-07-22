@@ -5,15 +5,14 @@
 #include "Matrix.h"
 %}
 
-%include "typemaps.i"
 %include "std_vector.i"
 
 namespace std {
-%template(Line) vector<double>;
+%template(List) vector<double>;
     %template(Array) vector<vector<double>>;
 }
 
-
+%rename(assign) WF2::Matrix::operator=;
 %include "Matrix.h"
 
 extern void setUpLibrary();

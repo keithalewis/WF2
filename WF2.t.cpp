@@ -1,4 +1,6 @@
-// Wells Fargo
+// Wells Fargo Assignment 2
+#include <cassert>
+#include <iostream>
 #include <sstream>
 #include "Matrix.h"
 #include "comparer_builder.h"
@@ -18,6 +20,15 @@ int matrix_test()
         ofs.close();
         Matrix m("/tmp/matrix.params");
         assert(m.to_string() == "[[4, 4, 4], [4, 4, 4]]");
+    }
+    {
+        double array[] = {1,2,3,4};
+        Matrix m(2, 2, array);
+        assert(m.to_string() == "[[1, 2], [3, 4]]");
+        Matrix m2 = m + m;
+        assert(m2.to_string() == "[[2, 4], [6, 8]]");
+        m2 += m;
+        assert(m2.to_string() == "[[3, 6], [9, 12]]");
     }
 
 	return 0;

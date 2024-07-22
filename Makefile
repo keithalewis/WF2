@@ -3,11 +3,13 @@ CPPFLAGS = -g
 WF2.t: WF2.t.cpp
 
 clean:
-	rm -f WF2.t
+	rm -f WF2.t *.o
 
 test: WF2.t
 	./WF2.t
 
+WF2.t.cpp: Matrix.h
+
 python:
-	rm -rf build
-	(mkdir build; cd build; cmake ..; make)
+	mkdir -p build
+	(mkdir build; cd build; rm -rf *; cmake ..; make)
