@@ -10,7 +10,8 @@ $ sudo apt install swig4.0
 
 On Windows 11  
 Download [swigwin-4.1.2](https://sourceforge.net/projects/swig/files/swigwin/swigwin-4.1.2/swigwin-4.1.2.zip)
-and extract to top level directory.
+and extract to top level directory. 
+Set the environment variable `SWIG_ROOT` to the path of the `swigwin-4.1.2` directory. (Thanks Derek!)
 
 ## Clone
 
@@ -19,7 +20,7 @@ $ git clone https://github.com/keithalewis/WF2
 $ cd WF2
 ```
 
-To create or update `_Matrix.so` and `pyMatrix.py` in `build` direectory:
+To create or update test executable `WF2.t` and python module files `_Matrix.so` and `pyMatrix.py` in `build` direectory:
 
 ```
 $ mkdir build
@@ -30,7 +31,7 @@ $ make
 
 Or `make python`.
 
-From `build` directory  
+On Linux from the `build` directory  
 ```
 $ python3
 >>> import pyMatrix as My
@@ -41,6 +42,33 @@ $ python3
 >>> print(mat_res)
 [[6, 8, 10], [2, 8, 10]]
 ```
+
+On Windows open WF2 folder in Visual Studio.  
+Wait for CMake to configure the project then build.  
+Right click on the WF2 project and select `Open in terminal`  
+```
+PS C:\Users\kal\source\repos\keithalewis\WF2\out\build\x64-Debug> py
+Python 3.12.4 (tags/v3.12.4:8e8a4ba, Jun  6 2024, 19:30:16) [MSC v.1940 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import Debug.pyMatrix as pm
+>>> m = pm.Matrix([[1,2,],[3,4]])
+>>> print(m+m)
+[[2, 4], [6, 8]]
+>>> m += m
+>>> print(m)
+[[2, 4], [6, 8]]
+# however
+>>> m += m
+>>> print(m)
+[[2, 4], [6, 8]]
+# and
+>>> n = m + m
+>>> print(n)
+[[2, 4], [6, 8]]
+```
+
+It seems the [SWIG documentation](https://www.swig.org/Doc1.3/Python.html#Python_nn24)
+is not accurate. Perhaps this only works for POD types where shallow copy is sufficient.
 
 ## Remarks
 
