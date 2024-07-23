@@ -19,3 +19,10 @@ namespace std {
 
 %rename(assign) WF2::Matrix::operator=;
 %include "Matrix.h"
+%extend WF2::Matrix {
+    WF2::Matrix __add__(const WF2::Matrix& b) {
+         WF2::Matrix a(*self);
+
+         return a + b;
+    }
+};
