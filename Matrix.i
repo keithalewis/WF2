@@ -1,7 +1,12 @@
 // Matrix.i - Matrix interface
 %module Matrix
-%{
+
+%begin %{
 #define SWIG_FILE_WITH_INIT
+// use release Python interpreter (and C runtime by extension)
+#ifdef _MSC_VER
+#define SWIG_PYTHON_INTERPRETER_NO_DEBUG
+#endif  // _MSC_VER
 #include "Matrix.h"
 %}
 

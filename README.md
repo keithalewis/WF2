@@ -8,6 +8,10 @@ On Ubuntu
 $ sudo apt install swig4.0
 ```
 
+On Windows 11  
+Download [swigwin-4.1.2](https://sourceforge.net/projects/swig/files/swigwin/swigwin-4.1.2/swigwin-4.1.2.zip)
+and extract to top level directory.
+
 ## Clone
 
 ```

@@ -1,9 +1,21 @@
 // Wells Fargo Assignment 2
+#include <algorithm>
 #include <cassert>
+#include <cstdlib>
 #include <iostream>
 #include <sstream>
 #include "Matrix.h"
 #include "comparer_builder.h"
+
+#undef assert
+#define assert(x) \
+    do { \
+        if (!(x)) { \
+            std::cerr << "failed: " << #x << std::endl; \
+            std::exit(EXIT_FAILURE); \
+        } \
+    } \
+    while (false)
 
 using namespace WF2;
 
@@ -14,11 +26,13 @@ int matrix_test()
         assert(m.to_string() == "[[4, 4, 4], [4, 4, 4]]");
     }
     {
-        std::ofstream ofs("/tmp/matrix.params", std::ios_base::trunc);
-        assert(ofs.is_open());
-        ofs << 2 << " " << 3 << " " << 4;
-        ofs.close();
-        Matrix m("/tmp/matrix.params");
+		const char* name = std::tmpnam(nullptr);
+		std::FILE* file = std::fopen(name, "w");
+		assert(file);
+		std::fprintf(file, "%g %g %g", 2., 3., 4.);
+		std::fclose(file);
+
+        Matrix m(name);
         assert(m.to_string() == "[[4, 4, 4], [4, 4, 4]]");
     }
     {

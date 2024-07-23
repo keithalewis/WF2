@@ -3,7 +3,6 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <span>
 #include <string>
 #include <valarray>
 #include <vector>
